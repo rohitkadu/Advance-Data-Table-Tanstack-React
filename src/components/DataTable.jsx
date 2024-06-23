@@ -10,6 +10,7 @@ import React, { useMemo, useState } from 'react';
 import mData from '../../sample-data.json';
 import clearIco from '../../public/clear-icon.png';
 import FilterSideBar from './FilterSideBar';
+import ViewSideBar from './ViewSideBar';
 
 export default function DataTable() {
   const [sorting, setSorting] = useState([]);
@@ -23,6 +24,16 @@ export default function DataTable() {
     priceRange: [0, 100],
     createdAt: '',
     updatedAt: '',
+  });
+  const [visibleColumns, setVisibleColumns] = useState({
+    id: true,
+    name: true,
+    category: true,
+    subcategory: true,
+    createdAt: true,
+    updatedAt: true,
+    price: true,
+    sale_price: true,
   });
 
   const filteredData = useMemo(() => {
@@ -86,7 +97,7 @@ export default function DataTable() {
       accessorKey: 'sale_price',
       footer: 'Sale Price'
     },
-  ], []);
+  ].filter(column => visibleColumns[column.accessorKey]), [visibleColumns]);
 
   const table = useReactTable({
     data: filteredData,
@@ -150,6 +161,14 @@ export default function DataTable() {
           closeSidebar={() => setSidebarOpen(false)}
           filters={filters}
           setFilters={setFilters}
+        />
+      )}
+      {activeFeature === 'view' && (
+        <ViewSideBar
+          isOpen={sidebarOpen}
+          closeSidebar={() => setSidebarOpen(false)}
+          visibleColumns={visibleColumns}
+          setVisibleColumns={setVisibleColumns}
         />
       )}
       <table className='table table-striped rounded-corners'>
