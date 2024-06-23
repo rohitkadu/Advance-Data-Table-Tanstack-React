@@ -1,16 +1,19 @@
+import React, { useMemo, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
   getPaginationRowModel,
   getSortedRowModel,
-  getFilteredRowModel
+  getFilteredRowModel,
+  getGroupedRowModel,
 } from '@tanstack/react-table';
-import React, { useMemo, useState } from 'react';
 import mData from '../../sample-data.json';
 import clearIco from '../../public/clear-icon.png';
 import FilterSideBar from './FilterSideBar';
 import ViewSideBar from './ViewSideBar';
+import GroupBySideBar from './GroupBySideBar';
+import SortingSideBar from './SortingSideBar'; // Import SortingSideBar component
 
 export default function DataTable() {
   const [sorting, setSorting] = useState([]);
@@ -35,7 +38,9 @@ export default function DataTable() {
     price: true,
     sale_price: true,
   });
+  const [grouping, setGrouping] = useState([]);
 
+  // Memoized filtered data based on current filters
   const filteredData = useMemo(() => {
     return mData.filter(item => {
       const matchesName = filters.name === '' || item.name.toLowerCase().includes(filters.name.toLowerCase());
@@ -48,6 +53,7 @@ export default function DataTable() {
     });
   }, [mData, filters]);
 
+  // Memoized columns based on visibleColumns state
   const columns = useMemo(() => [
     {
       header: 'ID',
@@ -99,6 +105,7 @@ export default function DataTable() {
     },
   ].filter(column => visibleColumns[column.accessorKey]), [visibleColumns]);
 
+  // React Table hook setup
   const table = useReactTable({
     data: filteredData,
     columns,
@@ -106,19 +113,34 @@ export default function DataTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getGroupedRowModel: getGroupedRowModel(), // Include getGroupedRowModel for grouping
     state: {
       sorting,
       globalFilter: filtering,
+      grouping, // Include grouping state
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
+    onGroupingChange: setGrouping, // Handle grouping change
   });
 
+  // Clear filtering function
   const clearFilter = () => setFiltering('');
 
+  // Toggle sidebar and set active feature
   const toggleSidebar = (feature) => {
     setActiveFeature(feature);
     setSidebarOpen(!sidebarOpen);
+  };
+
+  // Apply grouping function
+  const applyGrouping = (groupBy) => {
+    setGrouping(groupBy ? [groupBy] : []); // Set grouping state based on selected groupBy
+  };
+
+  // Clear grouping function
+  const clearGrouping = () => {
+    setGrouping([]); // Clear grouping state
   };
 
   return (
@@ -169,6 +191,21 @@ export default function DataTable() {
           closeSidebar={() => setSidebarOpen(false)}
           visibleColumns={visibleColumns}
           setVisibleColumns={setVisibleColumns}
+        />
+      )}
+      {activeFeature === 'groupby' && (
+        <GroupBySideBar
+          isOpen={sidebarOpen}
+          closeSidebar={() => setSidebarOpen(false)}
+          applyGrouping={applyGrouping}
+          clearGrouping={clearGrouping}
+        />
+      )}
+      {activeFeature === 'sort' && (
+        <SortingSideBar
+          isOpen={sidebarOpen}
+          closeSidebar={() => setSidebarOpen(false)}
+          applySorting={setSorting}
         />
       )}
       <table className='table table-striped rounded-corners'>

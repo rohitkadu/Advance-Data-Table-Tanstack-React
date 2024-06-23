@@ -60,3 +60,34 @@ input[type=checkbox]{
   margin: 0px 20px 0px 0px;
  }
   
+
+ .grpby-label {
+  padding-top: 30px;
+  font-size: 2rem;
+ }
+
+ .grpby-select {
+  width: 230px;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  border: 1.2px solid blue;
+  border-radius: 3.5px;
+  font-size: 2rem;
+ }
+
+ .grpby-sidebar button{
+  margin: 10px 0px;
+  width: 200px;
+  border: 2px solid blue;
+  border-radius: 1px;
+  font-size: 1.8rem;
+  font-weight: bolder;
+ }
+
+
+#apply-grp-btn {
+  background-color: blue;
+  color: white;
+}

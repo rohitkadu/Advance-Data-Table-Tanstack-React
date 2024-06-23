@@ -2,6 +2,7 @@ import { useState } from 'react'
 // import BasicTable from './components/BasicTable'
 import Header from './components/Header'
 import DataTable from './components/DataTable'
+import Footer from './components/Footer'
 // import Sidebar from './components/Sidebar'
 
 
@@ -16,6 +17,7 @@ function App() {
     <div className="app">
       <Header />
       <DataTable />
+      <Footer />
       {/* <Sidebar /> */}
     </div>
   )
