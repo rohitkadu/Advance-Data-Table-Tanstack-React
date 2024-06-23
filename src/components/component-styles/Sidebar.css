@@ -1,0 +1,58 @@
+.sidebar {
+    position: fixed;
+    right: 0;
+    top: 100px;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    padding: 20px;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+
+  }
+  
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar button {
+    border: none;
+    background-color: white;
+  }
+  
+  .close-btn {
+    align-self: flex-end;
+    /* font-size: 2em; */
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  input[type="text"], input[type="date"] {
+    width: 230px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: 1.2px solid blue;
+    border-radius: 3.5px;
+  }
+
+
+  /* Sidebar */
+
+  .sidebar-content label {
+    border: 1.5px solid #9f9f9f;
+    background-color: #f1f3f1;
+    text-align: left;
+    padding: 8px 0px 3px 5px;
+    border-radius: 6px;
+  }
+  
